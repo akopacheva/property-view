@@ -1,0 +1,12 @@
+target/
+data/
+*.mv.db
+*.trace.db
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+.env
+*.log

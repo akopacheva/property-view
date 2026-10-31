@@ -1,0 +1,49 @@
+server:
+  # Port used by the embedded web server.
+  port: 8092
+  servlet:
+    # Common URL prefix for all application endpoints.
+    context-path: /property-view
+
+spring:
+  application:
+    # Application name.
+    name: property-view
+
+  datasource:
+    # Use DB_URL when provided; otherwise, use an in-memory H2 database.
+    # DB_CLOSE_DELAY=-1 keeps the database available after the last connection closes.
+    # DB_CLOSE_ON_EXIT=FALSE disables H2's automatic shutdown hook.
+    # In-memory data does not survive termination of the application process.
+    url: ${DB_URL:jdbc:h2:mem:propertyview;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+
+    # Use environment variables for credentials, with local H2 defaults.
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
+
+  jpa:
+    # Do not keep the persistence context open for the entire web request.
+    open-in-view: false
+    hibernate:
+      # Validate entity mappings against the schema without creating or updating it.
+      ddl-auto: validate
+
+  liquibase:
+    # Master changelog used to apply database schema migrations.
+    change-log: classpath:db/changelog/db.changelog-master.xml
+
+  jackson:
+    deserialization:
+      # Reject JSON request bodies containing unknown properties.
+      fail-on-unknown-properties: true
+
+  mvc:
+    problemdetails:
+      # Enable Problem Details responses for supported Spring MVC exceptions.
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    # Swagger UI is available under the application's context path:
+    # http://localhost:8092/property-view/swagger-ui.html
+    path: /swagger-ui.html

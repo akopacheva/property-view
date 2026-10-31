@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    # Use DB_URL when provided; otherwise, connect to the local PostgreSQL database.
+    # The default database name is propertyview, and the default port is 5432.
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/propertyview}
+
+    # Use DB_USERNAME when provided; otherwise, use the propertyview user.
+    username: ${DB_USERNAME:propertyview}
+
+    # Use DB_PASSWORD when provided; otherwise, use an empty password.
+    password: ${DB_PASSWORD:}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+    <changeSet id="001-create-hotels" author="property-view">
+        <createTable tableName="hotels">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_hotels" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="description" type="VARCHAR(10000)"/>
+            <column name="brand" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="house_number" type="INT"><constraints nullable="false"/></column>
+            <column name="street" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="city" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="country" type="VARCHAR(255)"><constraints nullable="false"/></column>
+            <column name="post_code" type="VARCHAR(32)"><constraints nullable="false"/></column>
+            <column name="phone" type="VARCHAR(64)"><constraints nullable="false"/></column>
+            <column name="email" type="VARCHAR(254)"><constraints nullable="false"/></column>
+            <column name="check_in" type="VARCHAR(5)"><constraints nullable="false"/></column>
+            <column name="check_out" type="VARCHAR(5)"/>
+        </createTable>
+        <createTable tableName="hotel_amenities">
+            <column name="hotel_id" type="BIGINT"><constraints nullable="false"/></column>
+            <column name="amenity" type="VARCHAR(255)"><constraints nullable="false"/></column>
+        </createTable>
+        <addPrimaryKey tableName="hotel_amenities" columnNames="hotel_id,amenity"
+                       constraintName="pk_hotel_amenities"/>
+        <addForeignKeyConstraint baseTableName="hotel_amenities" baseColumnNames="hotel_id"
+                                 referencedTableName="hotels" referencedColumnNames="id"
+                                 constraintName="fk_amenities_hotel" onDelete="CASCADE"/>
+        <createIndex tableName="hotels" indexName="idx_hotels_brand"><column name="brand"/></createIndex>
+        <createIndex tableName="hotels" indexName="idx_hotels_city"><column name="city"/></createIndex>
+        <createIndex tableName="hotels" indexName="idx_hotels_country"><column name="country"/></createIndex>
+        <createIndex tableName="hotel_amenities" indexName="idx_hotel_amenities_value">
+            <column name="amenity"/>
+        </createIndex>
+        <rollback>
+            <dropTable tableName="hotel_amenities"/>
+            <dropTable tableName="hotels"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
